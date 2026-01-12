@@ -1,40 +1,204 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: Graft
+description: Manage remote Docker Compose projects like they're running on localhost.
+template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
+  tagline: If it runs on Local Compose, it runs on Production with Graft. 
   image:
     file: ../../assets/houston.webp
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: Get Started
+      link: /install/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
+    - text: Command Reference
+      link: /commands/project/
+      icon: open-book
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
 
-## Next steps
+<div style="padding: 1rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.5rem; background: var(--sl-color-gray-6); margin: 2rem 0;">
+**The Graft Promise**
 
-<CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
+**Straight to Production.** Graft takes your local services straight to any server and makes them production-ready instantly.
+
+If you know Docker and Docker Compose, you already know almost everything of Graft. No new DSLs, no complex orchestrators—just your familiar workflow, remotely from your local cli.
+</div>
+
+## Quick Installation
+
+Get Graft up and running in seconds.
+
+<Tabs>
+  <TabItem label="Linux & macOS">
+    ```bash
+    curl -sSL https://raw.githubusercontent.com/skssmd/Graft/main/bin/install.sh | sh
+    ```
+  </TabItem>
+  <TabItem label="Windows">
+    ```powershell
+    winget install graft
+    ```
+    *Or use our [PowerShell script](/install#windows-quick-install)*
+  </TabItem>
+</Tabs>
+
+---
+
+## Distributed Everywhere
+Graft is available via major package managers for a seamless setup.
+
+<div class="distribution-grid">
+<a href="/install/#homebrew"><Card title="Homebrew" icon="apple">macOS, Linux</Card></a>
+<a href="/install/#snap"><Card title="Snap Store" icon="linux">Linux (Snap)</Card></a>
+<a href="/install/#apt"><Card title="APT / YUM" icon="setting">Debian, Ubuntu, Fedora, RHEL</Card></a>
+<a href="/install/#aur"><Card title="AUR" icon="linux">Arch Linux (yay / paru)</Card></a>
+<a href="/install/#winget"><Card title="WinGet" icon="seti:windows">Windows</Card></a>
+</div>
+
+<style>{`
+	.distribution-grid {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1.5rem;
+		max-width: 900px;
+		margin: 2rem auto;
+	}
+	.distribution-grid a {
+		text-decoration: none !important;
+		color: inherit !important;
+		flex: 1 1 250px;
+		max-width: 280px;
+		min-width: 200px;
+		display: flex;
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+	.distribution-grid a:hover {
+		transform: translateY(-8px);
+	}
+	.distribution-grid .card {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		padding: 1rem !important;
+		border: 1px solid var(--sl-color-gray-5) !important;
+		background: var(--sl-color-gray-6) !important;
+		max-height: fit-content;
+	}
+	.distribution-grid a:hover .card {
+		border-color: var(--sl-color-accent) !important;
+		box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+	}
+	.distribution-grid svg {
+		width: 2.5rem !important;
+		height: 2.5rem !important;
+		margin-bottom: 0.5rem;
+	}
+	.distribution-grid h2 {
+		font-size: 1.1rem !important;
+		margin-top: 0.5rem !important;
+	}
+	.distribution-grid p {
+		font-size: 0.9rem !important;
+		margin-top: 0.25rem !important;
+		margin-bottom: 0px !important;
+		padding-bottom: 0px !important;
+		line-height: 1.2 !important;
+	}
+	.distribution-grid .body {
+		padding-bottom: 0px !important;
+		margin-bottom: 0px !important;
+	}
+`}</style>
+
+---
+
+## Why Graft?
+
+<div class="features-grid">
+	<Card title="Zero DSL" icon="pencil">
+		The `graft-compose.yml` is a pure Docker Compose file that provides context to Graft.
 	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
+	<Card title="Auto Infra" icon="add-document">
+		Automatic setup for Traefik, SSL, shared Postgres, and Redis on any fresh server.
 	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
+	<Card title="Agentless SSH" icon="rocket">
+		Instantly start sessions or run commands on your project host without hunting for IPs.
 	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
+	<Card title="CI/CD Built-in" icon="setting">
+		Graft reads context and generates production-ready GitHub Actions workflows automatically.
 	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+	<Card title="Instant Rollbacks" icon="random">
+		Every deployment is versioned. Revert projects or services to stable states in seconds.
 	</Card>
-</CardGrid>
+	<Card title="DNS & Migration" icon="external">
+		Automated Cloudflare DNS mapping and zero-downtime migration between servers.
+	</Card>
+	<Card title="Project Context" icon="list-format">
+		Graft manages project-to-server connections and knows where each project lives.
+	</Card>
+	<Card title="Docker Passthrough" icon="seti:docker">
+		Run any Docker Compose command remotely through Graft. Perfect for live debugging.
+	</Card>
+</div>
+
+<style>{`
+	.features-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 1rem;
+		margin-top: 2rem;
+	}
+	@media (min-width: 1200px) {
+		.features-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+	.features-grid .card {
+		padding: 1.25rem !important;
+		height: 100%;
+		display: flex;
+		margin:auto;
+		flex-direction: column;
+		border: 1px solid var(--sl-color-gray-5) !important;
+		background: var(--sl-color-gray-6) !important;
+		transition: transform 0.2s ease;
+	}
+	.features-grid .card:hover {
+		transform: translateY(-5px);
+		border-color: var(--sl-color-accent) !important;
+	}
+	/* Align icon and title horizontally */
+	.features-grid article {
+		display: flex;
+		flex-direction: column;
+	}
+	.features-grid .title-bar {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 0.75rem;
+	}
+	.features-grid svg {
+		width: 2.5rem !important;
+		height: 2.5rem !important;
+		margin-bottom: 0 !important;
+	}
+	.features-grid h2 {
+		font-size: 1.2rem !important;
+		margin-bottom: 0 !important;
+		margin-top: 0 !important;
+	}
+	.features-grid p {
+		font-size: 0.95rem !important;
+		line-height: 1.4 !important;
+		color: var(--sl-color-gray-3);
+		margin-top: 0.5rem !important;
+	}
+`}</style>
+
+:::note[Pro Tip]
+Run `graft init` in any directory with a `docker-compose.yml` to start your first remote deployment!
+:::

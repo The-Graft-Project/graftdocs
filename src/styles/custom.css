@@ -1,0 +1,33 @@
+:root {
+	/* Blue accent colors to replace Starlight's default purple */
+	--sl-color-accent-low: #002b4d;
+	--sl-color-accent: #0074d9;
+	--sl-color-accent-high: #b3d9ff;
+}
+
+/* Dark mode overrides */
+:root[data-theme='dark'] {
+	--sl-color-accent-low: #003366;
+	--sl-color-accent: #3399ff;
+	--sl-color-accent-high: #e6f2ff;
+}
+
+/* Premium typography & spacing */
+body {
+	font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.starlight-aside {
+    border-radius: 0.5rem !important;
+}
+
+/* Increase content width for a more spacious feel */
+:root {
+	--sl-content-width: 60rem; /* Increased from default */
+}
+
+/* Allow splash page to be even wider for the feature grid */
+[data-template="splash"] .main-frame {
+	--sl-content-width: 90rem;
+}
+

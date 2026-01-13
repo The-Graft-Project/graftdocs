@@ -10,7 +10,6 @@ Graft supports several deployment modes to fit your workflow, from quick local i
 These modes are perfect for fast iteration or project where you don't want to manage a repository.
 
 - **`direct-serverbuild` (Default)**: Graft uploads your source code and builds the Docker images directly on the remote server.
-- **`direct-localbuild`**: Graft builds the images on your local machine and then uploads the compressed images to the server. Useful if your server has limited CPU/RAM.
 
 ### Git-Based Deployment (CI/CD)
 

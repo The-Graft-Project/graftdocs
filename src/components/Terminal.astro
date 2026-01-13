@@ -1,0 +1,209 @@
+---
+interface Props {
+	command?: string;
+	lines?: string[];
+}
+
+const { command = "graft init", lines = [] } = Astro.props;
+---
+
+<div class="terminal-mockup" data-command={command} data-lines={JSON.stringify(lines)}>
+	<div class="terminal-header">
+		<div class="terminal-controls">
+			<span class="control close"></span>
+			<span class="control minimize"></span>
+			<span class="control maximize"></span>
+		</div>
+		<div class="terminal-title">bash — project-root</div>
+	</div>
+	<div class="terminal-body">
+		<div class="terminal-content">
+			<!-- Content will be injected by script -->
+		</div>
+	</div>
+</div>
+
+<script>
+	function initTerminal() {
+		const terminals = document.querySelectorAll('.terminal-mockup');
+		
+		const observerOptions = {
+			root: null,
+			rootMargin: '0px',
+			threshold: 0.5 // Start when 50% visible
+		};
+
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					const terminal = entry.target;
+					if (terminal.classList.contains('animating')) return;
+					
+					startAnimation(terminal);
+					// Optionally unobserve if you only want it to run once, 
+					// but since we want it to loop/behave like a gif, 
+					// we'll manage resets inside startAnimation
+				}
+			});
+		}, observerOptions);
+
+		async function startAnimation(terminal) {
+			terminal.classList.add('animating');
+			const commandAttr = terminal.getAttribute('data-command') || "graft init";
+			const commands = commandAttr.split(',').map(c => c.trim());
+			const lines = JSON.parse(terminal.getAttribute('data-lines') || '[]');
+			const content = terminal.querySelector('.terminal-content');
+			const body = terminal.querySelector('.terminal-body');
+
+			async function run() {
+				if (!content || !body) return;
+				content.innerHTML = '';
+				
+				for (let i = 0; i < commands.length; i++) {
+					const cmd = commands[i];
+					const cmdLine = document.createElement('div');
+					cmdLine.className = 'terminal-line typing';
+					cmdLine.innerHTML = `<span class="prompt">$</span> <span class="command-text"></span>`;
+					content.appendChild(cmdLine);
+					
+					const cmdText = cmdLine.querySelector('.command-text');
+					if (cmdText) {
+						for (let char of cmd) {
+							cmdText.textContent += char;
+							await new Promise(r => setTimeout(r, 40));
+						}
+					}
+					await new Promise(r => setTimeout(r, 600));
+					if (i < commands.length - 1) await new Promise(r => setTimeout(r, 200));
+				}
+
+				const outputContainer = document.createElement('div');
+				outputContainer.className = 'terminal-output';
+				content.appendChild(outputContainer);
+
+				for (let line of lines) {
+					const lineEl = document.createElement('div');
+					lineEl.className = 'output-line';
+					lineEl.textContent = line;
+					outputContainer.appendChild(lineEl);
+					body.scrollTop = body.scrollHeight;
+					
+					if (line.includes(": ") || line.endsWith("? (y/n): ") || line.includes("[1-4]: ")) {
+						await new Promise(r => setTimeout(r, 800));
+					} else {
+						await new Promise(r => setTimeout(r, 60));
+					}
+				}
+
+				const cursorLine = document.createElement('div');
+				cursorLine.className = 'output-line completion-cursor';
+				cursorLine.innerHTML = `<span class="cursor">_</span>`;
+				outputContainer.appendChild(cursorLine);
+				body.scrollTop = body.scrollHeight;
+
+				await new Promise(r => setTimeout(r, 8000));
+				run();
+			}
+
+			run();
+		}
+
+		terminals.forEach(terminal => {
+			if (terminal.classList.contains('observed')) return;
+			terminal.classList.add('observed');
+			observer.observe(terminal);
+		});
+	}
+
+	initTerminal();
+	document.addEventListener('astro:page-load', initTerminal);
+</script>
+
+<style>
+	.terminal-mockup {
+		background: #1e1e1e;
+		border-radius: 8px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+		overflow: hidden;
+		font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
+		margin: 2rem 0;
+		border: 1px solid #333;
+		max-width: 100%;
+	}
+
+	.terminal-header {
+		background: #323232;
+		padding: 6px 14px;
+		display: flex;
+		align-items: center;
+		position: relative;
+		border-bottom: 1px solid #222;
+	}
+
+	.terminal-controls {
+		display: flex;
+		gap: 6px;
+	}
+
+	.control {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+	}
+
+	.close { background: #ff5f56; }
+	.minimize { background: #ffbd2e; }
+	.maximize { background: #27c93f; }
+
+	.terminal-title {
+		flex-grow: 1;
+		text-align: center;
+		color: #999;
+		font-size: 0.7rem;
+		margin-right: 32px;
+	}
+
+	.terminal-body {
+		padding: 16px;
+		color: #e0e0e0;
+		font-size: 0.85rem;
+		line-height: 1.4;
+		max-height: 400px;
+		overflow-y: auto;
+		scrollbar-width: thin;
+		scrollbar-color: #444 #1e1e1e;
+		scroll-behavior: smooth;
+	}
+
+	.terminal-line {
+		display: flex;
+		gap: 8px;
+		margin-bottom: 4px;
+	}
+
+	.prompt {
+		color: #27c93f;
+		font-weight: bold;
+	}
+
+	.output-line {
+		margin-bottom: 1px;
+		white-space: pre-wrap;
+		word-break: break-all;
+		animation: slideIn 0.2s ease-out forwards;
+	}
+
+	.cursor {
+		animation: blink 1s infinite;
+		color: #999;
+	}
+
+	@keyframes blink {
+		50% { opacity: 0 }
+	}
+
+	@keyframes slideIn {
+		from { transform: translateY(2px); opacity: 0; }
+		to { transform: translateY(0); opacity: 1; }
+	}
+</style>

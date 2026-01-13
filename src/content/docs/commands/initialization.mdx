@@ -1,0 +1,125 @@
+---
+title: Initialization
+description: Getting started with Graft project and host initialization.
+---
+
+To begin using Graft, you need to initialize your project. In most cases, a single command is all you need to set up both your project context and your remote server.
+
+---
+
+import Terminal from '../../../components/Terminal.astro';
+
+### `graft init`
+The primary command to start any Graft project. 
+
+**How to use:**
+1.  Open your terminal and navigate to your **project root directory** (the folder containing your source code and `docker-compose.yml`).
+2.  Run the initialization command:
+
+```bash
+graft init
+```
+
+**The Workflow:**
+1.  **Server Connection**: Select an existing server from your registry or add a new one (`/new`).
+2.  **Host Audit**: Graft checks if the target server has the required infrastructure (`/opt/graft`).
+    *   **Auto-Detection**: If the host is not initialized, Graft will automatically prompt you to run the host initialization process.
+3.  **Project Identity**: Define your project name and primary domain name.
+4.  **Rollback Settings**: Configure version retention (for instant rollbacks).
+5.  **Deployment Strategy**: Choose your preferred [Deployment Mode](/guides/deployment-modes).
+6.  **Environment Sync**: Graft sets up the remote directories and prepares the initial environment.
+
+#### Live Demo (Interactive Session)
+Watch the complete initialization process in action:
+
+<Terminal 
+	command="cd my-project, graft init" 
+	lines={[
+		"📋 Available servers in registry:",
+		"  [1] production-server (123.45.67.89)",
+		"",
+		"Select a server [1-1] or type '/new' for a new connection: /new",
+		"Host IP: 123.45.67.89",
+		"Port (22): ",
+		"User: graft-user",
+		"Key Path: /path/to/your-key.pem",
+		"Registry Name (e.g. prod-us): my-app-server",
+		"Project Name: my-awesome-project",
+		"🔍 Checking for conflicts on remote server '123.45.67.89'...",
+		"",
+		"⚠️  Host is not initialized. Do you want to initialize the host? (y/n): y",
+		"🚀 Starting host initialization...",
+		"  Setup shared Postgres? (y/n): y",
+		"  Setup shared Redis? (y/n): y",
+		"🔍 Detected: Ubuntu 22.04",
+		"⏩ Running: Check Docker...",
+		"Complete!",
+		"⏩ Running: Check Docker Compose...",
+		"",
+		"⏩ Running: Create Network...",
+		"d15e08ed7786779a3c4483fea675018e513ced375c3e09ef8adf3da33e61c710",
+		"⏩ Running: Create Base Dirs...",
+		"⏩ Running: Setup Traefik...",
+		"🔧 Setup Shared Infra",
+		"✅ Infra credentials saved to remote server",
+		"✅ Host initialized.",
+		"Domain (e.g. app.example.com): app.yourdomain.com",
+		"",
+		"🔄 Rollback configurations",
+		"Do you want to setup rollback configurations? (y/N): y",
+		"Enter the number of versions to keep: 3",
+		"✅ Rollback configured to keep 3 versions",
+		"",
+		"📦 Project Type / Deployment Mode:",
+		"  Git-based modes:",
+		"    [1] git-images (GitHub Actions → GHCR → automated deployment via graft-hook)",
+		"    [2] git-repo-serverbuild (GitHub Actions → server build → automated deployment)",
+		"    [3] git-manual (Git repo only, no CI/CD workflow provided)",
+		"",
+		"  Direct deployment modes:",
+		"    [4] direct-serverbuild (upload source → build on server)",
+		"",
+		"Select deployment mode [1-4]: 1",
+		"✅ Found git remote: https://github.com/user/repo.git",
+		"✅ Git-based image deployment selected (GHCR)",
+		"",
+		"⚠️  IMPORTANT: Requires graft-hook webhook service for automated deployment",
+		"✅ Remote project registry updated",
+		"🔍 graft-hook is not installed on the server.",
+		"Enter domain for graft-hook (e.g. graft-hook.example.com): webhook.yourdomain.com",
+		"🚀 Deploying graft-hook...",
+		"✅ graft-hook deployed.",
+		"✅ Hook URL saved to global registry",
+		"📂 Setting up remote project directory: /opt/graft/projects/my-awesome-project",
+		"📦 Installing git on remote server...",
+		"Complete!",
+		"🔧 Initializing git repository on server...",
+		"✨ Project 'my-awesome-project' initialized!",
+		"Local config: .graft/config.json",
+		"Boilerplate: graft-compose.yml"
+	]} 
+/>
+
+:::tip
+For most users, `graft init` is the only initialization command you'll ever need. It intelligently detects if your server needs a fresh setup and handles it for you.
+:::
+
+---
+### `graft host init`
+Manually trigger the setup of Graft's core infrastructure on a remote server.
+
+```bash
+graft host init
+```
+
+**When to use this?**
+While `graft init` is the primary command and is usually enough for most workflows (as it auto-detects host status), you might use `graft host init` if:
+*   You want to prepare a server **before** you have a specific project ready.
+*   You need to re-initialize or repair the core infrastructure on an existing host.
+*   You want to manually trigger the installation of shared services (Postgres, Redis) independently.
+
+**Infrastructure includes:**
+*   **Docker & Docker Compose**: Automated installation for major Linux distributions.
+*   **Networking**: Setup of the `graft-public` bridge network.
+*   **Reverse Proxy**: Professional **Traefik** configuration with automated SSL (Let's Encrypt).
+*   **Shared Services**: Guided setup for shared Postgres/Redis instances.

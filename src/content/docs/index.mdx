@@ -5,7 +5,29 @@ template: splash
 hero:
   tagline: If it runs on Local Compose, it runs on Production with Graft. 
   image:
-    file: ../../assets/houston.webp
+    html: |
+        <div class="terminal-window">
+          <div class="terminal-header">
+            <div class="terminal-button red"></div>
+            <div class="terminal-button yellow"></div>
+            <div class="terminal-button green"></div>
+            <div class="terminal-title">graft — bash</div>
+          </div>
+          <div class="terminal-body">
+            <pre class="hero-ascii">
+        <span>_██████___██████____█████___███████_████████ </span>
+        <span>██________██___██__██___██__██_________██    </span>
+        <span>██___███__██████___███████__█████______██    </span>
+        <span>██____██__██___██__██___██__██_________██    </span>
+        <span>_██████___██___██__██___██__██_________██    </span>
+            </pre>
+            <div class="cursor-line">
+              <span class="prompt">$</span>
+              <span class="command-text"></span>
+              <span class="cursor"></span>
+            </div>
+          </div>
+        </div>
   actions:
     - text: Get Started
       link: /install/

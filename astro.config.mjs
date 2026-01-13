@@ -36,6 +36,15 @@ export default defineConfig({
 					],
 				},
 				{
+					label: 'Graft Hook',
+					items: [
+						{ label: 'Introduction', slug: 'graft-hook/introduction' },
+						{ label: 'Automatic CI/CD', slug: 'graft-hook/usage' },
+						{ label: 'Manual CD (Graft)', slug: 'graft-hook/manual-setup' },
+						{ label: 'Standalone (Non-Graft)', slug: 'graft-hook/standalone' },
+					],
+				},
+				{
 					label: 'Reference',
 					items: [
 						{ label: 'Request a Feature', link: 'https://github.com/skssmd/Graft/issues/new?labels=enhancement' },

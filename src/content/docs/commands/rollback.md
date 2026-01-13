@@ -36,4 +36,4 @@ Configure how many rollback versions Graft should keep on the server.
 ```bash
 graft rollback config
 ```
-Default is 3 versions. Set to 0 to disable rollbacks.
+

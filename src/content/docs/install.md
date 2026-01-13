@@ -10,7 +10,7 @@ Graft is a lightweight CLI tool written in Go. You can install it on Linux, macO
 The fastest way to install Graft on any Unix-like system is via our installation script:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/skssmd/Graft/main/bin/install.sh | sh
+curl -sSL https://graftdocs.vercel.app/install.sh | sh
 ```
 
 ### Windows (Quick Install)
@@ -18,7 +18,7 @@ curl -sSL https://raw.githubusercontent.com/skssmd/Graft/main/bin/install.sh | s
 Open PowerShell as Administrator and run:
 
 ```powershell
-powershell -ExecutionPolicy ByPass -Command "iwr -useb https://raw.githubusercontent.com/skssmd/Graft/main/bin/install.ps1 | iex"
+powershell -ExecutionPolicy ByPass -Command "iwr -useb https://graftdocs.vercel.app/install.ps1 | iex"
 ```
 
 ---

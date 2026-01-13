@@ -29,7 +29,22 @@ body {
 /* Allow splash page to be even wider for the feature grid */
 [data-template="splash"] .main-frame {
 	--sl-content-width: 90rem;
+
 }
 
-
+/* Hero title "CLI" tag */
+[data-has-hero] .hero h1::after {
+	content: " CLI";
+	font-size: 0.5em;
+	font-weight: 800;
+	vertical-align: middle;
+	margin-left: 0.5rem;
+	opacity: 0.8;
+	background: color-mix(in srgb, var(--sl-color-accent), transparent 98%);
+	color: var(--sl-color-accent);
+	padding: 0.1rem 0.6rem;
+	border-radius: 0.4rem;
+	border: 1px solid color-mix(in srgb, var(--sl-color-accent), transparent 80%);
+	text-transform: uppercase;
+}
 

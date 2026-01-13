@@ -21,9 +21,11 @@ import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
 <div style="padding: 1rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.5rem; background: var(--sl-color-gray-6); margin: 2rem 0;">
 **The Graft Concept**
 
-**Straight to Production.** Graft takes your local services straight to any server and makes them production-ready instantly.
+Graft is an **opensource CLI tool** and **agentless deployment engine** that extends the Docker Compose workflow to cloud infrastructure via SSH. Graft enables native remote management of AWS, GCP, and VPS instances with no agent installs or server-side overhead required.
 
-If you know Docker and Docker Compose, you already know almost everything of Graft. No new DSLs, no complex orchestrators—just your familiar workflow, remotely from your local cli.
+**Straight to Production.** Graft takes your local services straight to any server and makes them production-ready instantly. If you know Docker and Docker Compose, you already know almost everything of Graft. No new DSLs, no complex orchestrators—just your familiar workflow, remotely from your local CLI.
+
+With features like **Server Setup**, **DNS Configurations**, **Rollbacks**, and **CI/CD Workflow** generation, Graft handles all the boring infrastructure work for you.
 </div>
 
 ## Quick Installation
@@ -124,8 +126,8 @@ Graft is available via major package managers for a seamless setup.
 	<Card title="Auto Infra" icon="add-document">
 		Automatic setup for Traefik, SSL, shared Postgres, and Redis on any fresh server.
 	</Card>
-	<Card title="Agentless SSH" icon="rocket">
-		Instantly start sessions or run commands on your project host without hunting for IPs.
+	<Card title="Agentless & Lean" icon="rocket">
+		Zero agents or background processes on your server. Graft uses native SSH for everything, keeping your production host bloat-free.
 	</Card>
 	<Card title="CI/CD Built-in" icon="setting">
 		Graft reads context and generates production-ready GitHub Actions workflows automatically.
@@ -198,6 +200,72 @@ Graft is available via major package managers for a seamless setup.
 		margin-top: 0.5rem !important;
 	}
 `}</style>
+
+---
+
+
+
+<div class="use-cases">
+  <div class="case-positive">
+    ### Perfect for:
+    - **Solo developers** with side projects who need to ship fast
+    - **Small teams** that want a simple, robust production environment
+    - **Agencies or freelancers** juggling multiple clients across different servers—Graft keeps track so you don't have to
+    - **Migrating between cloud providers** (free tier rotation is a valid business strategy - i think :P)
+    - **Rapid prototyping** and iteration without deployment overhead
+  </div>
+
+  <div class="case-negative">
+    ### Not for:
+    - Multi-region/server architectural system meshes
+
+  </div>
+</div>
+
+---
+
+## What Makes This Different
+
+<CardGrid stagger>
+  <Card title="vs Dokku / CapRover" icon="laptop">
+    No web UI, pure CLI. More flexible deployment modes. Better for managing multiple projects across multiple servers.
+  </Card>
+  <Card title="vs Dokploy / Coolify" icon="rocket">
+    No heavy agents or management panels running on your server. Graft stays on your machine, using SSH to keep your production server lean and fast.
+  </Card>
+  <Card title="vs Railway / Render" icon="external">
+    Self-hosted. No vendor lock-in. Works anywhere you have SSH. No monthly bills that scale with your success.
+  </Card>
+  <Card title="vs Manual Deployment" icon="setting">
+    Automated setup, reverse proxy, DNS, CI/CD generation, multi-project management. All the boring infrastructure work is handled.
+  </Card>
+</CardGrid>
+
+<style>{`
+	.use-cases {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		gap: 2rem;
+		margin: 2rem 0;
+	}
+	@media (max-width: 768px) {
+		.use-cases {
+			grid-template-columns: 1fr;
+		}
+	}
+	.case-positive, .case-negative {
+		padding: 1.5rem;
+		margin:auto;
+		border-radius: 0.75rem;
+		border: 1px solid var(--sl-color-gray-5);
+
+	}
+    .case-positive h3, .case-negative h3 {
+        margin-top: 0 !important;
+    }
+`}</style>
+
+---
 
 :::note[Pro Tip]
 Run `graft init` in any directory with a `docker-compose.yml` to start your remote deployment! [See documentation](/install/)

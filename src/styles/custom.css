@@ -58,7 +58,7 @@ body {
 	border: 1px solid #30363d;
 	border-radius: 8px;
 	box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-	min-width: 500px;
+	min-width: max-content;
 	margin: 0 auto; /* Reduced gap */
 	overflow: hidden;
 	font-family: 'JetBrains Mono', 'Fira Code', monospace;
@@ -210,11 +210,39 @@ body {
 
 
 @media (max-width: 50rem) {
-	.hero-ascii {
-		font-size: 0.45rem;
+	[data-has-hero] .hero {
+		flex-direction: column-reverse;
+		align-items: center;
+		text-align: center;
+		padding-bottom: 5vh;
+		gap: 3rem;
 	}
+
+	.terminal-window {
+		min-width: unset;
+		width: calc(100% - 2rem);
+		max-width: 95vw;
+		margin: 1.5rem auto 0;
+	}
+
+	.hero-ascii {
+		font-size: clamp(0.3rem, 4vw, 0.55rem);
+		line-height: 0.85;
+	}
+
 	.terminal-body {
-		padding: 1rem;
+		padding: 1.25rem 0.5rem;
+	}
+
+	.cursor-line {
+		padding-left: 1rem;
+		font-size: 0.9rem;
+		gap: 8px;
+	}
+
+	.cursor {
+		width: 8px;
+		height: 14px;
 	}
 }
 

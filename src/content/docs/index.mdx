@@ -139,6 +139,22 @@ Graft is available via major package managers for a seamless setup.
 		padding-bottom: 0px !important;
 		margin-bottom: 0px !important;
 	}
+	@media (max-width: 600px) {
+		.distribution-grid {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1rem;
+			padding: 0 1rem;
+		}
+		.distribution-grid a {
+			flex: unset;
+			max-width: unset;
+			min-width: unset;
+		}
+		.distribution-grid h2 {
+			font-size: 1rem !important;
+		}
+	}
 `}</style>
 
 ---

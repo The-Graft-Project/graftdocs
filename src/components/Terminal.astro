@@ -168,7 +168,7 @@ const { command = "graft init", lines = [] } = Astro.props;
 		color: #e0e0e0;
 		font-size: 0.85rem;
 		line-height: 1.4;
-		max-height: 400px;
+		height: 400px;
 		overflow-y: auto;
 		scrollbar-width: thin;
 		scrollbar-color: #444 #1e1e1e;
@@ -205,5 +205,12 @@ const { command = "graft init", lines = [] } = Astro.props;
 	@keyframes slideIn {
 		from { transform: translateY(2px); opacity: 0; }
 		to { transform: translateY(0); opacity: 1; }
+	}
+
+	@media (max-width: 50rem) {
+		.terminal-body {
+			height: 350px;
+			font-size: 0.75rem;
+		}
 	}
 </style>

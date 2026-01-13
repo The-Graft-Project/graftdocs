@@ -141,9 +141,11 @@ Graft is available via major package managers for a seamless setup.
 	<Card title="Project Context" icon="list-format">
 		Graft manages project-to-server connections and knows where each project lives.
 	</Card>
-	<Card title="Docker Passthrough" icon="seti:docker">
-		Run any Docker Compose command remotely through Graft. Perfect for live debugging.
-	</Card>
+	<a href="/commands/docker-compose" style="text-decoration: none; color: inherit;">
+		<Card title="Docker Passthrough" icon="seti:docker">
+			Run any Docker Compose command remotely through Graft. Perfect for live debugging.
+		</Card>
+	</a>
 </div>
 
 <style>{`
@@ -158,18 +160,28 @@ Graft is available via major package managers for a seamless setup.
 			grid-template-columns: repeat(4, 1fr);
 		}
 	}
+	.features-grid a {
+		text-decoration: none !important;
+		color: inherit !important;
+		display: flex;
+	}
+	.features-grid .card, .features-grid a {
+		transition: transform 0.2s ease;
+	}
+	.features-grid .card:hover, .features-grid a:hover {
+		transform: translateY(-5px);
+	}
 	.features-grid .card {
 		padding: 1.25rem !important;
 		height: 100%;
+		width: 100%;
 		display: flex;
 		margin:auto;
 		flex-direction: column;
 		border: 1px solid var(--sl-color-gray-5) !important;
 		background: var(--sl-color-gray-6) !important;
-		transition: transform 0.2s ease;
 	}
-	.features-grid .card:hover {
-		transform: translateY(-5px);
+	.features-grid .card:hover, .features-grid a:hover .card {
 		border-color: var(--sl-color-accent) !important;
 	}
 	/* Align icon and title horizontally */
@@ -270,3 +282,11 @@ Graft is available via major package managers for a seamless setup.
 :::note[Pro Tip]
 Run `graft init` in any directory with a `docker-compose.yml` to start your remote deployment! [See documentation](/install/)
 :::
+
+{/* Visitor Tracking - Hidden for now. Check hits at: https://hits.seeyoufarm.com */}
+<div style="display: flex; justify-content: center; margin: 3rem 0;">
+  <img 
+    src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgraft.sh&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" 
+    alt="visitor count"
+  />
+</div>

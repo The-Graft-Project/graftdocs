@@ -8,6 +8,9 @@ export default defineConfig({
 			title: 'Graft Docs',
 			customCss: ['./src/styles/custom.css'],
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/skssmd/Graft' }],
+			components: {
+				Layout: './src/layouts/Layout.astro',
+			},
 			sidebar: [
 				{
 					label: 'Getting Started',

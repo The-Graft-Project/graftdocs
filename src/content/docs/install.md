@@ -53,11 +53,6 @@ gpgcheck=0" | sudo tee /etc/yum.repos.d/graft.repo
 sudo yum install graft
 ```
 
-#### <span id="snap">Snap Store</span>
-```bash
-sudo snap install graft --classic
-```
-
 #### <span id="aur">Arch Linux (AUR)</span>
 ```bash
 yay -S graft-bin

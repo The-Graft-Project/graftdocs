@@ -8,9 +8,7 @@ export default defineConfig({
 			title: 'Graft Docs',
 			customCss: ['./src/styles/custom.css'],
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/skssmd/Graft' }],
-			components: {
-				Layout: './src/layouts/Layout.astro',
-			},
+
 			sidebar: [
 				{
 					label: 'Getting Started',
@@ -29,12 +27,20 @@ export default defineConfig({
 						{ label: 'Deployment', slug: 'commands/deployment' },
 						{ label: 'Shared Postgres/Redis', slug: 'commands/infrastructure' },
 						{ label: 'DNS', slug: 'commands/dns' },
-						{ label: 'Deployment Mode', slug: 'commands/mode' },
+						{ label: 'Deployment Mode Command', slug: 'commands/mode' },
 						{ label: 'Host/Server Management', slug: 'commands/host-server' },
 						{ label: 'Rollback', slug: 'commands/rollback' },
 						{ label: 'Registry Management', slug: 'commands/registry' },
 						{ label: 'Project Scope', slug: 'commands/project-scope' },
 						{ label: 'Docker Compose Passthrough', slug: 'commands/docker-compose' },
+					],
+				},
+				{
+					label: 'Deployment & Environments',
+					items: [
+						{ label: 'Deployment Environments', slug: 'guides/deployment-environments' },
+						{ label: 'Deployment Modes', slug: 'guides/deployment-modes' },
+						{ label: 'Environment Variables', slug: 'guides/environment-variables' },
 					],
 				},
 				{
@@ -55,6 +61,9 @@ export default defineConfig({
 					],
 				},
 			],
+			components: {
+				Head: './src/components/HeadWithAnalytics.astro',
+			},
 		}),
 	],
 });

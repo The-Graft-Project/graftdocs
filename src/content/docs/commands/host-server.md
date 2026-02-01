@@ -27,6 +27,15 @@ graft host -sh "df -h"
 ```
 *Example output: Shows the disk usage of the remote server.*
 
+### `graft host <command>` (Docker Passthrough)
+Execute `sudo docker <command>` directly on the remote host managed by the current project. This is a shorthand for running Docker commands without manually SSH-ing.
+
+```bash
+graft host ps
+graft host stats
+graft host logs -f my-container
+```
+
 ---
 
 ### `graft host self-destruct`

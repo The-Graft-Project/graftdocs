@@ -33,6 +33,7 @@ export default defineConfig({
 						{ label: 'Registry Management', slug: 'commands/registry' },
 						{ label: 'Project Scope', slug: 'commands/project-scope' },
 						{ label: 'Docker Compose Passthrough', slug: 'commands/docker-compose' },
+						{ label: 'Docker Passthrough', slug: 'commands/docker-passthrough' },
 					],
 				},
 				{

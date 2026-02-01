@@ -31,6 +31,26 @@ graft -p my-awesome-project logs --tail=50
 graft -p my-awesome-project restart web
 ```
 
+#### Host & Environment Passthrough
+
+You can also target the underlying host infrastructure for a specific project or environment directly using the `host` command. This acts as a wrapper for `sudo docker` on the remote server.
+
+**Project Host Passthrough:**
+Execute a Docker command on the host of the specified project.
+```bash
+graft -p <project-name> host <command>
+# Example:
+graft -p my-app host ps
+```
+
+**Environment-Specific Host Passthrough:**
+Target the host of a specific environment within a project.
+```bash
+graft -p <project-name> env <env-name> host <command>
+# Example:
+graft -p my-app env staging host stats
+```
+
 ---
 
 ### Why use Project Scope?

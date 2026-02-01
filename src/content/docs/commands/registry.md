@@ -55,3 +55,22 @@ Execute terminal commands directly on a server in your registry.
 ```bash
 graft -r prod-us -sh "uptime"
 ```
+
+### Docker Passthrough
+Directly execute `sudo docker` commands on your remote registry. Graft acts as a wrapper, passing your command arguments straight to the Docker CLI on the remote server.
+
+```bash
+graft -r <registryname> <command>
+```
+
+**Examples:**
+```bash
+# List containers
+graft -r vps ps
+
+# View docker stats
+graft -r vps stats
+
+# Stop a container (subshell example)
+graft -r vps stop $(docker ps -q)
+```

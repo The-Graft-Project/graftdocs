@@ -22,6 +22,7 @@ export default defineConfig({
 				{
 					label: 'Commands',
 					items: [
+						{ label: 'SSH Key Management', slug: 'commands/ssh' },
 						{ label: 'Initialization', slug: 'commands/initialization' },
 						{ label: 'Post-Initialization', slug: 'commands/post-initialization' },
 						{ label: 'Deployment', slug: 'commands/deployment' },

@@ -21,7 +21,7 @@ Every Graft project is built on three pillars that bridge the gap between your l
 
 The initialization process prepares both your local environment and your target server for seamless communication. When you run `graft init`, the following occurs:
 
-*   **Server Connection**: Graft prompts for your SSH credentials (user and key path) to establish a secure link to the remote host, or lets you choose from your existing list of configured servers.
+*   **Server Connection**: Graft prompts for your SSH credentials (user and key path) to establish a secure link to the remote host. You can use [`graft pub`](/commands/ssh) to quickly generate or retrieve a public key to authorize on your server.
 *   **Infrastructure Check**: It audits the server for Graft's management layer (`/opt/graft`). If the server is "fresh," Graft automatically:
     *   Installs **Docker** and **Docker Compose**.
     *   Deploys a pre-configured **Traefik** reverse proxy with **Let's Encrypt** for automated SSL.

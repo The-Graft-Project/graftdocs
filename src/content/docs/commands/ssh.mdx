@@ -1,0 +1,51 @@
+---
+title: SSH Key Management
+description: Get or generate SSH keys for secure host initialization.
+---
+
+Graft uses SSH keys to securely communicate with your remote servers. The `graft pub` command simplifies the process of managing these keys.
+
+---
+
+import Terminal from '../../../components/Terminal.astro';
+
+### `graft pub`
+This command is used to retrieve or generate an SSH public key that Graft uses for remote operations.
+
+**How to use:**
+Run the following command in your terminal:
+
+```bash
+graft pub
+```
+
+**The Workflow:**
+1.  **Check for Existing Key**: Graft checks if an SSH key pair already exists in its configuration directory (`~/.graft/graftpub` and `~/.graft/graftpem`).
+2.  **Generate New Key**: If no key is found, Graft automatically generates a secure **ED25519** SSH key pair.
+3.  **Output Public Key**: The command prints the **public key** to your terminal.
+
+#### Why is this needed?
+Before you can initialize a host with `graft init` or `graft host init`, the target server needs to authorize your Graft SSH key. 
+
+**Steps to Authorize:**
+1.  Run `graft pub` to get your public key.
+2.  Copy the output string.
+3.  Add this string to the `~/.ssh/authorized_keys` file on your remote server.
+
+#### Live Demo
+<Terminal 
+	command="graft pub" 
+	lines={[
+		"🔑 No existing Graft SSH key found. Generating a new one...",
+		"✅ SSH key pair generated successfully.",
+		"",
+		"📋 Your Graft Public Key:",
+		"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI................................",
+		"",
+		"💡 Copy the key above and add it to your server's ~/.ssh/authorized_keys"
+	]} 
+/>
+
+:::tip
+Always keep your private key (`graftpem`) safe. Graft stores these keys in your user profile's home directory under `.graft/`.
+:::

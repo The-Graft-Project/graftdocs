@@ -42,9 +42,48 @@ Before you can initialize a host with `graft init` or `graft host init`, the tar
 		"📋 Your Graft Public Key:",
 		"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI................................",
 		"",
-		]} 
+		"💡 Copy the key above and add it to your server's ~/.ssh/authorized_keys"
+	]} 
 />
 
 :::tip
 Always keep your private key (`graftpem`) safe. Graft stores these keys in your user profile's home directory under `.graft/`.
 :::
+
+---
+
+### `graft pub rollout`
+Rotate your Graft SSH keys across all linked servers automatically.
+
+**How to use:**
+```bash
+graft pub rollout
+```
+
+**The Workflow:**
+1.  **Backup & Load**: Graft loads your current SSH key pair.
+2.  **Generate New Key**: A new secure ED25519 key pair is generated in memory.
+3.  **Identify Servers**: Graft scans your [Global Registry](/commands/registry) to find all servers that use the current Graft key.
+4.  **Remote Update**: Graft connects to each server using the *old* key and updates the `authorized_keys` file to include the *new* key.
+5.  **Local Sync**: Once all servers are updated (or attempted), Graft replaces the old keys on your local machine with the new ones.
+
+#### Live Demo
+<Terminal 
+	command="graft pub rollout" 
+	lines={[
+		"🔄 Generating new SSH key pair...",
+		"🚀 Rolling out keys to 3 servers...",
+		"📡 Updating production-us (1.2.3.4)... ✅ Success",
+		"📡 Updating staging-eu (5.6.7.8)... ✅ Success",
+		"📡 Updating backup-srv (9.0.1.2)... ❌ Connection failed: connection timed out",
+		"💾 Saving new keys locally...",
+		"",
+		"✨ Successfully rolled out SSH keys! (2 servers updated)",
+		"⚠️  Warning: 1 servers failed to update. They still expect the OLD key."
+	]} 
+/>
+
+:::caution
+If a server is offline during the rollout, it will not be updated. You will need to manually add the new public key to that server's `authorized_keys` before Graft can connect to it again.
+:::
+

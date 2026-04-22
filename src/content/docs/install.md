@@ -73,13 +73,3 @@ go build -o graft cmd/graft/main.go
 ```
 
 **Requirements:** Go 1.24+, SSH access to a Linux server (Docker is installed automatically on the host during `graft init`).
-
----
-
-### Next Steps
-
-Now that you have Graft installed, follow these steps to get your first project live:
-
-1.  **Authorize your SSH Key**: Run [`graft pub`](/commands/ssh) to get your Graft public key and add it to your server's `~/.ssh/authorized_keys`.
-2.  **Initialize Project**: Run [`graft init`](/commands/initialization) in your project directory.
-3.  **Sync to Production**: Run [`graft sync`](/commands/deployment#graft-sync) to deploy your app.

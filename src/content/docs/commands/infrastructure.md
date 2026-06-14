@@ -61,6 +61,24 @@ graft infra reload
 
 ---
 
+### `graft psql [dbname]`
+Open an interactive `psql` session on the shared infrastructure Postgres instance.
+
+```bash
+# Connect to the default postgres database
+graft psql
+
+# Connect to a specific database
+graft psql mydb
+```
+
+**What it does:**
+- Opens a live `psql` shell connected to the shared Postgres container running on your server.
+- If `dbname` is omitted, connects to the default `postgres` database.
+- Useful for running ad-hoc queries, inspecting schemas, or performing manual data operations.
+
+---
+
 ### `graft infra db backup`
 Schedule or run an automated database backup to an S3-compatible service.
 

@@ -28,6 +28,32 @@ When you create a new environment, Graft will guide you through an interactive s
 
 ---
 
+### Listing Environments
+
+To see all configured environments for the current project, run:
+
+```bash
+graft env ls
+# or from anywhere
+graft -p my-project env ls
+```
+
+**Example output:**
+```
+📋 Environments for project 'myapp':
+Environment     Registry        Domain                         Mode
+-------------------------------------------------------------------------------------
+prod            prod-us         myapp.com                      git-images
+staging         staging-eu      staging.myapp.com              git-images
+```
+
+- **Environment** — the environment identifier used in `graft env <name> <command>`.
+- **Registry** — the registry entry (server) this environment is bound to.
+- **Domain** — the primary domain configured for this environment.
+- **Mode** — the deployment mode in use (e.g. `git-images`, `direct-serverbuild`).
+
+---
+
 ### Running Commands in an Environment
 
 Once an environment is set up, you can run any Graft command against it by prefixing the command with `env <name>`.

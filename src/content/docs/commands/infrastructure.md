@@ -6,36 +6,73 @@ description: Manage shared databases, caches, and backups.
 Graft allows you to run shared infrastructure like Postgres and Redis that multiple projects can use.
 
 ### `graft db <name> init`
-Initialize a managed Postgres database.
+Create an isolated Postgres database on the project's server.
 
 ```bash
-graft db mydb init
+graft db myapp init                    # project scope (uses project's server)
+graft host db myapp init               # host scope (uses host's server)
+graft -r azure db myapp init           # registry scope (targets specific server)
+graft env staging db myapp init        # creates db and links to staging env
 ```
 
 **What it does:**
-- Creates a database in the shared Postgres container.
-- Generates a connection URL.
-- Saves the secret as `GRAFT_POSTGRES_<NAME>_URL`.
+- Creates a dedicated database in the shared Postgres container.
+- Creates a scoped `<name>_user` with a random 24-character password — admin credentials never appear in project secrets.
+- Generates a connection URL saved to `.graft/secrets.env` as `GRAFT_POSTGRES_<NAME>_URL`.
+- Prompts to link the database to a project environment. If the environment already has a database linked, prompts for overwrite confirmation.
+
+**Output:**
+```
+GRAFT_POSTGRES_MYAPP_URL=postgres://<user>:<pass>@graft-postgres:5432/myapp
+```
 
 **Usage in graft-compose.yml:**
 ```yaml
 environment:
-  - DATABASE_URL=${GRAFT_POSTGRES_MYDB_URL}
+  - DATABASE_URL=${GRAFT_POSTGRES_MYAPP_URL}
 ```
 
 ---
 
 ### `graft redis <name> init`
-Initialize a managed Redis instance.
+Map a Redis database index for the project.
 
 ```bash
-graft redis mycache init
+graft redis cache init
+graft host redis cache init
+graft -r azure redis cache init
 ```
 
 **What it does:**
-- Creates a Redis database (separate DB number).
+- Allocates a Redis database index in the shared Redis container.
 - Generates a connection URL.
 - Saves the secret as `GRAFT_REDIS_<NAME>_URL`.
+
+---
+
+### `graft psql`
+Open a `psql` session on the infrastructure Postgres. Acts as a full psql passthrough — all native psql flags are supported.
+
+**Project scope** (inside a project directory): auto-connects to the environment's linked database. No dbname argument accepted — the database is always determined by the current env.
+
+**Registry scope** (`-r`): connects to the admin master database by default, or to a specific database if provided.
+
+```bash
+# Project scope — database from env metadata
+graft psql                             # interactive session on env's db
+graft psql -c "\dt"                    # list tables
+graft psql -c "SELECT count(*) FROM users"
+graft psql -f migrations/001.sql       # run a SQL file
+graft psql -t -A -c "SELECT version()"  # any psql flags work
+graft env staging psql                 # staging env's database
+graft env staging psql -c "\dt"        # one-off on staging
+graft -p myapp psql                    # specific project's prod db
+
+# Registry scope — dbname accepted
+graft -r azure psql                    # admin master db
+graft -r azure psql mydb              # specific database
+graft -r azure psql mydb -c "SELECT 1"
+```
 
 ---
 
@@ -58,24 +95,6 @@ Pull and reload infrastructure services (Postgres and Redis).
 ```bash
 graft infra reload
 ```
-
----
-
-### `graft psql [dbname]`
-Open an interactive `psql` session on the shared infrastructure Postgres instance.
-
-```bash
-# Connect to the default postgres database
-graft psql
-
-# Connect to a specific database
-graft psql mydb
-```
-
-**What it does:**
-- Opens a live `psql` shell connected to the shared Postgres container running on your server.
-- If `dbname` is omitted, connects to the default `postgres` database.
-- Useful for running ad-hoc queries, inspecting schemas, or performing manual data operations.
 
 ---
 

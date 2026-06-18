@@ -1,49 +1,31 @@
 ---
 title: Scale
-description: Scale services to run multiple instances on the remote server.
+description: Scale services to run multiple replicas with automatic load balancing.
 ---
 
-Graft provides a native `scale` command to adjust the number of running replicas for any service in your project without a full redeploy.
+Graft provides a native `scale` command to adjust the number of running replicas for any service. Scaling persists through deploys.
 
-### `graft scale <service> <replicas>`
-Set the number of running instances for a specific service.
+### `graft scale <service> <n>`
+Scale a service to N replicas via Traefik load balancing.
 
 ```bash
-graft scale backend 3
-graft scale worker 5
-graft scale frontend 1
+graft scale backend 3                  # 3 instances of backend
+graft scale backend 1                  # remove replicas, back to single
+graft env staging scale backend 2      # scale in staging env
 ```
 
 **What it does:**
-1. Connects to the remote server.
-2. Runs `docker compose up -d --scale <service>=<replicas> --no-recreate` against your project's compose file.
-3. Starts or stops containers to match the requested replica count without interrupting already-running instances.
+1. Creates `<service>-scale-2`, `<service>-scale-3`, etc. in the remote compose file.
+2. Each replica gets the Traefik loadbalancer label so traffic is distributed automatically.
+3. Starts the new replica containers alongside existing ones.
 
-**Flags:**
-- `--no-recreate` *(default)* — Only add or remove containers; do not recreate existing ones.
-- `--force-recreate` — Recreate all containers for the service to apply any configuration changes.
-
-```bash
-graft scale backend 3 --force-recreate
-```
-
----
-
-### Scaling to Zero
-
-Setting replicas to `0` stops all containers for a service without removing its configuration.
-
-```bash
-graft scale backend 0
-```
-
-This is equivalent to `graft stop backend` but keeps scaling semantics consistent when scripting.
+Scaling back to `1` removes the extra replicas from the compose file and stops the additional containers.
 
 ---
 
 ### Load Balancing with Traefik
 
-When scaling a service behind Traefik, all replicas are automatically added to the load balancer pool. No label changes are required.
+When scaling a service behind Traefik, all replicas are automatically added to the load balancer pool. No label changes are required — Graft handles this for you.
 
 ```yaml
 # graft-compose.yml
@@ -59,13 +41,9 @@ services:
 ```
 
 ```bash
-# Scale to 3 replicas — Traefik distributes traffic across all three automatically
+# Scale to 3 replicas — Traefik distributes traffic across all three
 graft scale backend 3
 ```
-
-:::note
-Traefik uses round-robin load balancing by default. For sticky sessions, add the `loadbalancer.sticky` label to your service.
-:::
 
 ---
 
@@ -73,11 +51,14 @@ Traefik uses round-robin load balancing by default. For sticky sessions, add the
 
 ```bash
 # Scale up before a traffic spike
-graft scale backend 5
+graft scale backend 3
 
 # Check that all instances are running
 graft ps
 
-# Scale back down after the spike
-graft scale backend 2
+# Deploy an update — replicas persist
+graft sync backend
+
+# Scale back down
+graft scale backend 1
 ```

@@ -27,6 +27,7 @@ export default defineConfig({
 						{ label: 'Post-Initialization', slug: 'commands/post-initialization' },
 						{ label: 'Deployment', slug: 'commands/deployment' },
 						{ label: 'Shared Postgres/Redis', slug: 'commands/infrastructure' },
+						{ label: 'Psql Passthrough', slug: 'commands/psql' },
 						{ label: 'DNS', slug: 'commands/dns' },
 						{ label: 'Deployment Mode Command', slug: 'commands/mode' },
 						{ label: 'Host/Server Management', slug: 'commands/host-server' },

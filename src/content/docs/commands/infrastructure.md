@@ -50,32 +50,6 @@ graft -r azure redis cache init
 
 ---
 
-### `graft psql`
-Open a `psql` session on the infrastructure Postgres. Acts as a full psql passthrough — all native psql flags are supported.
-
-**Project scope** (inside a project directory): auto-connects to the environment's linked database. No dbname argument accepted — the database is always determined by the current env.
-
-**Registry scope** (`-r`): connects to the admin master database by default, or to a specific database if provided.
-
-```bash
-# Project scope — database from env metadata
-graft psql                             # interactive session on env's db
-graft psql -c "\dt"                    # list tables
-graft psql -c "SELECT count(*) FROM users"
-graft psql -f migrations/001.sql       # run a SQL file
-graft psql -t -A -c "SELECT version()"  # any psql flags work
-graft env staging psql                 # staging env's database
-graft env staging psql -c "\dt"        # one-off on staging
-graft -p myapp psql                    # specific project's prod db
-
-# Registry scope — dbname accepted
-graft -r azure psql                    # admin master db
-graft -r azure psql mydb              # specific database
-graft -r azure psql mydb -c "SELECT 1"
-```
-
----
-
 ### `graft infra [db|redis] ports:<value>`
 Manage port visibility for shared infrastructure services.
 

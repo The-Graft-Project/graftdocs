@@ -34,6 +34,51 @@ environment:
 
 ---
 
+### `graft db <name> serve`
+Tunnel a remote Postgres database to your local machine over SSH.
+
+```bash
+graft db myapp serve                   # tunnel to localhost:5432
+graft db myapp serve :5433             # custom local port
+
+# Host scope
+graft host db myapp serve
+graft host db myapp serve :5433
+
+# Registry scope
+graft -r azure db myapp serve
+graft -r azure db myapp serve :5433
+```
+
+**Example output (with local secrets):**
+```
+🔗 Tunneling remote postgres to localhost:5432...
+
+📋 Connection details:
+   Host:     localhost
+   Port:     5432
+   Database: myapp
+
+📋 Connection string:
+   postgres://myapp_user:abc123@localhost:5432/myapp (from .graft/secrets.env)
+
+Press Ctrl+C to stop the tunnel.
+```
+
+**Without local secrets:**
+```
+📋 Connection details:
+   Host:     localhost
+   Port:     5432
+   Database: myapp
+
+💡 Credentials are in .graft/secrets.env (key: GRAFT_POSTGRES_MYAPP_URL)
+```
+
+Once the tunnel is running, connect with any local tool — pgAdmin, DBeaver, TablePlus, psql, or your app's dev config pointing at `localhost:5432`.
+
+---
+
 ### `graft redis <name> init`
 Map a Redis database index for the project.
 

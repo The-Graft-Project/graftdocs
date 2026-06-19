@@ -34,6 +34,7 @@ export default defineConfig({
 						{ label: 'Rollback', slug: 'commands/rollback' },
 						{ label: 'Registry Management', slug: 'commands/registry' },
 						{ label: 'Project Scope', slug: 'commands/project-scope' },
+						{ label: 'Tunnel', slug: 'commands/tunnel' },
 						{ label: 'Scale', slug: 'commands/scale' },
 						{ label: 'Docker Compose Passthrough', slug: 'commands/docker-compose' },
 						{ label: 'Docker Passthrough', slug: 'commands/docker-passthrough' },

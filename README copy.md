@@ -151,7 +151,7 @@ Built for rotating between cloud providers:
 
 **Homebrew (macOS/Linux):**
 ```bash
-brew tap skssmd/tap
+brew tap The-Graft-Project/tap
 brew install graft
 ```
 

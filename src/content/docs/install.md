@@ -32,7 +32,7 @@ winget install graft
 
 #### <span id="homebrew">Homebrew</span>
 ```bash
-brew tap skssmd/tap
+brew tap The-Graft-Project/tap
 brew install graft
 ```
 

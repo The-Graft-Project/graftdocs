@@ -25,14 +25,76 @@ Interactively add a new server to your registry. You will be prompted for:
 graft registry add
 ```
 
-### `graft registry <name> del`
-Remove a server from your registry by its name.
+### `graft registry del <name>`
+Remove a server from your registry by its name. You will be asked to confirm.
 ```bash
-graft registry my-server del
+graft registry del my-server
 ```
+
+If the server you delete was the [default registry](#default-registry), the default is cleared at the same time, so it can never point at a registry that no longer exists.
 
 ### Global Registry Mapping (`-r`, `--registry`)
 When you use a registry name in any Graft command (e.g., via the `-r` flag), Graft automatically retrieves the correct SSH credentials to target that specific remote server from your registry. This is essential for operations that aren't tied to a specific local project directory.
+
+---
+
+## Default Registry
+
+Typing `-r <name>` every time gets repetitive when you mostly work against one server. Marking a registry as the default lets you drop the flag for work outside a project directory.
+
+### `graft -default <name>`
+Mark a registry as the default.
+
+```bash
+graft -default vps
+```
+
+```
+✅ Default registry set to 'vps' (root@31.97.114.213)
+   Commands run outside a project directory will target this server.
+```
+
+### `graft -default`
+Report the current default. `graft registry ls` also marks the default row with `*`.
+
+```bash
+graft -default
+```
+
+### How the fallback works
+
+When a command has **no `-r`, no `-p`, and no project in the current directory**, Graft runs exactly what `graft -r <default> <command>` would have run:
+
+```bash
+cd ~/scratch          # no .graft here
+
+graft ps              # same as: graft -r vps ps
+graft -sh "uptime"    # same as: graft -r vps -sh "uptime"
+graft stats           # same as: graft -r vps stats
+```
+
+Graft says so when it does this, so you always know which server a command landed on:
+
+```
+🌐 No project here - using default registry 'vps'
+🚀 Executing on 'vps': sudo docker ps
+```
+
+:::note
+A project in the current directory always wins. Inside a project, `graft ps` still targets that project's own server and runs `docker compose` in its remote directory — the default registry changes nothing there.
+:::
+
+Explicit scoping also wins: `-r` and `-p` both take precedence, so the default applies only when nothing else has scoped the command.
+
+### Commands that never fall back
+
+`init`, `pub`, `projects` and `registry` already work without a project, so they are never redirected — `graft init` stays `graft init` wherever you run it.
+
+Commands that genuinely need a project, such as `sync` and `map`, are handed to the default registry like anything else, which means they fail there exactly as `graft -r <name> sync` would. Use `-p <project>` when you mean to act on a project from outside its directory.
+
+:::tip
+The default is stored as a top-level `"default"` key in `~/.graft/registry.json`. Point it elsewhere with another `graft -default <name>`, or clear it by deleting that registry.
+:::
 
 ---
 

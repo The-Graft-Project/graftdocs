@@ -58,3 +58,18 @@ graft -p my-app env staging host stats
 1.  **Quick Management**: No need to `cd` into multiple project folders to check status or restart services.
 2.  **Automation**: Easily script Graft commands in your local automation tools without worrying about the working directory.
 3.  **Global Access**: Manage your entire fleet of projects from a single terminal session.
+
+---
+
+### Working outside a project
+
+`-p` is the right flag when you want to act on a *project* from elsewhere. If instead you want to act on a *server* — listing containers, opening a shell, checking stats — set a [default registry](/commands/registry/#default-registry) and drop the flag entirely:
+
+```bash
+graft -default vps    # once
+
+cd ~/anywhere
+graft ps              # runs against vps
+```
+
+`-p` and `-r` always take precedence over the default, and a project in the current directory wins over both.

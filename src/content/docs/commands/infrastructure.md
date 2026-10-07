@@ -77,6 +77,8 @@ Press Ctrl+C to stop the tunnel.
 
 Once the tunnel is running, connect with any local tool — pgAdmin, DBeaver, TablePlus, psql, or your app's dev config pointing at `localhost:5432`.
 
+To back this database up to R2 or S3, see [Database Backups](/commands/db-backup/).
+
 ---
 
 ### `graft redis <name> init`
@@ -129,3 +131,9 @@ graft infra db backup
 2. **Scheduling**: Choose to enable daily backups via cron (2 AM).
 3. **Save Info**: Choose to persist credentials on the server.
 4. **Immediate Backup**: Option to run the first backup immediately to verify setup.
+
+This backs up the **whole Postgres server** (all databases) once a day. The script stops and reports an error when the dump fails (it never uploads an empty file), checks the compressed file, and cleans up its temporary files.
+
+:::tip
+To back up a single database on your own schedule — with retention, test restores, verified restores, download links and Telegram alerts — use [`graft db <name> backup`](/commands/db-backup/) instead.
+:::
